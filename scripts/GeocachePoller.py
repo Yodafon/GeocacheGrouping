@@ -1,12 +1,12 @@
-import sched, time
 import logging
-import urllib.request, urllib.response
+import urllib.request
+import urllib.response
 from urllib.error import URLError
 
 logger = logging.getLogger("GeocachePoller")
 logging.basicConfig(filename="C:\\GeocacheGroupingApp\\geocachepoller.log",
                     format='%(asctime)s %(message)s',
-                    filemode='a')
+                    filemode='a+')
 logger.setLevel(logging.DEBUG)
 
 def getFile():
