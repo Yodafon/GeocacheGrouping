@@ -1,0 +1,3 @@
+rootProject.name = 'GeoCachingGrouping-project'
+include 'Shared', 'GeocachingGrouping', 'GeocachingLoader'
+
