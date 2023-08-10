@@ -19,7 +19,7 @@ public class GeocacheLoader {
 
     @Scheduled(cron = "5 * * * * *")
     public void run() {
-        Collection<Gpx.Wpt> geocaches = parser.parse(); // fork/join -ba rakni
+        Collection<Gpx.Wpt> geocaches = parser.parse();
         geocaches.parallelStream().forEach(publisher::publish);
 
     }
