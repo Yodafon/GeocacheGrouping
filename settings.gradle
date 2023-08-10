@@ -1,3 +1,2 @@
 rootProject.name = 'GeoCachingGrouping-project'
-include 'Shared', 'GeocachingGrouping', 'GeocachingLoader'
-
+include 'Shared', 'GeocachingGrouping', 'GeocachingLoader', 'GeocachingGroupingUI'
