@@ -1,1 +1,0 @@
-C:\Users\Laci\Downloads\CommonFiles\JDK64\bin\xjc  -d ../../.. -p com.gg.generated *.xsd

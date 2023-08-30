@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GPX.xsd version 1.0 - For more information on GPX and this schema, visit http://www.topografix.com/gpx.asp -->
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <!-- Main GPX definition -->
+
+    <xsd:element name="geocacheByCounty">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="county" type="xsd:string"/>        <!-- GPX file description -->
+                <xsd:element name="region" type="xsd:string"/>        <!-- GPX file description -->
+                <xsd:element name="count" type="xsd:int"/>        <!-- GPX file author -->
+                <xsd:element name="timestamp" type="xsd:dateTime"/>        <!-- GPX file creation time -->
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema> 
