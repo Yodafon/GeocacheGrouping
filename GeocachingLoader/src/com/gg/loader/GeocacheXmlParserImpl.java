@@ -1,6 +1,5 @@
 package com.gg.loader;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.gg.generated.Gpx;
 import org.slf4j.Logger;
@@ -12,7 +11,7 @@ import javax.inject.Inject;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.stream.Stream;
 
 @Component
 public class GeocacheXmlParserImpl implements GeocacheXmlParser {
@@ -26,12 +25,11 @@ public class GeocacheXmlParserImpl implements GeocacheXmlParser {
     private String path;
 
     @Override
-    public Collection<Gpx.Wpt> parse() {
-        Gpx geocache = null;
+    public Stream<Gpx.Wpt> parse() {
         try {
-            geocache = xmlMapper
-                    .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            Gpx geocache = xmlMapper
                     .readValue(new FileInputStream(path), Gpx.class);
+            return geocache.getWpt().parallelStream();
         } catch (FileNotFoundException e) {
             LOGGER.error("File not found", e);
         } catch (IOException e) {
@@ -39,7 +37,7 @@ public class GeocacheXmlParserImpl implements GeocacheXmlParser {
         } catch (Exception e) {
             LOGGER.error("Error occurred", e);
         }
-        return geocache.getWpt();
+        return Stream.empty();
     }
 }
 

@@ -1,5 +1,6 @@
-package com.gg.loader;
+package com.gg.loader.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.boot.SpringApplication;
@@ -10,10 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableScheduling
@@ -25,17 +23,13 @@ public class GeocacheLoaderConfig {
         SpringApplication.run(GeocacheLoaderConfig.class, args);
     }
 
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
-    }
-
     @Bean
     public XmlMapper xmlMapper() {
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
-        return new XmlMapper(module);
+        XmlMapper xmlMapper = new XmlMapper(module);
+        xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return xmlMapper;
     }
 
     @Bean
