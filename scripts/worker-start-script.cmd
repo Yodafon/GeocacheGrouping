@@ -1,0 +1,1 @@
+C:\Users\Laci\Desktop\spark-3.3.2-bin-hadoop3-scala2.13\bin\spark-class org.apache.spark.deploy.worker.Worker spark://192.168.0.143:7077
