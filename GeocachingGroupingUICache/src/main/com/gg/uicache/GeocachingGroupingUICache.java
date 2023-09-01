@@ -20,7 +20,6 @@ public class GeocachingGroupingUICache {
         SpringApplication.run(GeocachingGroupingUICache.class);
     }
 
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() {
         PropertySourcesPlaceholderConfigurer pspc
@@ -31,6 +30,4 @@ public class GeocachingGroupingUICache {
         pspc.setIgnoreUnresolvablePlaceholders(true);
         return pspc;
     }
-
-
 }
