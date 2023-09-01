@@ -12,8 +12,8 @@ import javax.xml.datatype.DatatypeFactory
 
 
 @Component
-class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkReceiver
-                             , @transient jmsTemplate: JmsTemplate
+class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkReceiver,
+                             @transient jmsTemplate: JmsTemplate
                             ) extends Serializable {
   @transient val instance = DatatypeFactory.newInstance
 
