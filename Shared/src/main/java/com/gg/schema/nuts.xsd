@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GPX.xsd version 1.0 - For more information on GPX and this schema, visit http://www.topografix.com/gpx.asp -->
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <!-- Main GPX definition -->
+
+    <xsd:element name="Nuts">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="objects">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="NUTS_LB_2021_4326">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="geometries" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="properties">
+                                                        <xsd:complexType>
+                                                            <xsd:sequence>
+                                                                <xsd:element name="NUTS_ID" type="xsd:string"/>
+                                                                <xsd:element name="CNTR_CODE" type="xsd:string"/>
+                                                                <xsd:element name="LEVL_CODE" type="xsd:int"/>
+                                                                <xsd:element name="NUTS_NAME" type="xsd:string"/>
+                                                            </xsd:sequence>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema> 
