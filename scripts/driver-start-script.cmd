@@ -1,0 +1,1 @@
+C:\Users\Laci\Desktop\spark-3.3.2-bin-hadoop3-scala2.13\bin\spark-submit --name "GeocachingGrouping" --master spark://192.168.0.143:7077 --conf spark.eventLog.enabled=false  --conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps" C:\Users\Laci\Documents\Projects\GeocacheGrouping\GeocachingGrouping\build\libs\GeocachingGrouping.jar
