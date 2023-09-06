@@ -87,7 +87,7 @@ def addXjcTask(taskName, schema, pkg, dest) {
 
 // Add all the XJC tasks you need
 addXjcTask("maven-xsd",
-        "src/main/java/schema/*.xsd",
+        "src/main/java/schema/",
         "com.gg.generated",
         "src/main/java")
 
