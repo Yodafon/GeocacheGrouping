@@ -11,12 +11,10 @@ on:
   push:
     branches: [ "master" ]
     paths-ignore:
-      - 'GeocachingGrouping/**'
       - 'GeocachingGroupingUI/**'
   pull_request:
     branches: [ "master" ]
     paths-ignore:
-      - 'GeocachingGrouping/**'
       - 'GeocachingGroupingUI/**'
 
 permissions:
