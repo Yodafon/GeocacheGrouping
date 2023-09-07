@@ -1,15 +1,27 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'countygridcomponent',
+  selector: 'county',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class CountyComponent {
+
+//   @Input() messageToChild2!: string;
+  @Output() messageToParent = new EventEmitter<string>();
+
+
+ @Input() set messageToCounty(value: string) {
+         this.http
+                   .get<any[]>('http://localhost:8081/uicache/counties/'+value).subscribe((data)=>{
+                    this.countygrid.api.setRowData(data);
+                   });
+
+    }
 
     // Each Column Definition results in one Column.
    public countyColumnDefs: ColDef[] =  [
@@ -38,13 +50,11 @@ export class CountyComponent {
 
   }
 
-    // Example of consuming Grid Event
-    public loadCounties(e: CellClickedEvent): void {
-             this.http
-            .get<any[]>('http://localhost:8081/uicache/counties/' + e.data.region).subscribe((data)=>{
-             this.countygrid.api.setRowData(data);
-            });
-    }
+
+  onCountyCellClicked( e: CellClickedEvent): void {
+    console.log('cellClicked', e.data.region);
+    this.messageToParent.emit(e.data.county);
+  }
 
 
   // Example using Grid's API

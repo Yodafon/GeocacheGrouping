@@ -21,7 +21,7 @@ import { CountyComponent } from './geocache-county/app.component';
     AgGridModule,
     AppRoutingModule
   ],
-  providers: [CountyComponent],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

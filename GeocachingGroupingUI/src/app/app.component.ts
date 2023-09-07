@@ -13,6 +13,19 @@ export class AppComponent {
 
   constructor() {}
 
+  public messageToGeocacheDetail!: string;
+  public messageToCounty!: string;
 
+  // Cross component data passing for sibling componets
+
+    getDataFromRegion(message: any) {
+      this.messageToCounty = message;
+    }
+
+
+    getDataFromCounty(message: any) {
+          this.messageToGeocacheDetail = message;
+
+    }
 
 }

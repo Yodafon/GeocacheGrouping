@@ -2,9 +2,9 @@
 <!--<button (click)="clearSelection()">Clear Selection</button>-->
 <!-- AG Grid Angular Component -->
 <div class="container">
-    <regiongridcomponent/>
-    <countygridcomponent/>
-    <geocachedetailgridcomponent/>
+  <region (messageToParent)="getDataFromRegion($event)"/>
+  <county [messageToCounty]="messageToCounty" (messageToParent)="getDataFromCounty($event)"/>
+  <geocachedetail [messageToGeocacheDetail]="messageToGeocacheDetail"/>
 </div>
 
 <router-outlet></router-outlet>

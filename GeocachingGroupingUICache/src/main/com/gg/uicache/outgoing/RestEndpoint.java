@@ -7,14 +7,13 @@ import com.gg.uicache.config.HazelcastConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
 @RestController()
 @RequestMapping("/uicache")
+@CrossOrigin
 public class RestEndpoint {
 
 
@@ -28,16 +27,16 @@ public class RestEndpoint {
         return map.values();
     }
 
-    @GetMapping(value = "/counties", produces = "application/json")
-    public Collection<GeocacheByCounty> getCounties() {
+    @GetMapping(value = "/counties/{region}", produces = "application/json")
+    public Collection<GeocacheByCounty> getCountiesByRegion(@PathVariable String region) {
         IMap<String, GeocacheByCounty> map = hazelcastInstance.getMap(HazelcastConfig.COUNTY_CACHE);
-        return map.values();
+        return map.values().stream().filter(item -> item.getRegion().equals(region)).toList();
     }
 
-    @GetMapping(value = "/geocachedetails", produces = "application/json")
-    public Collection<GeocacheDetail> getGeocacheDetails() {
+    @GetMapping(value = "/geocachedetails/{county}", produces = "application/json")
+    public Collection<GeocacheDetail> getGeocacheDetailsByCounty(@PathVariable String county) {
         IMap<String, GeocacheDetail> map = hazelcastInstance.getMap(HazelcastConfig.GEOCACHE_DETAILS_CACHE);
-        return map.values();
+        return map.values().stream().filter(item -> item.getCounty().equals(county)).toList();
     }
 
 

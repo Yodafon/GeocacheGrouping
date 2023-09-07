@@ -1,5 +1,5 @@
 <div id="countygridcomponent">
-    <ag-grid-angular countygrid
+  <ag-grid-angular #countygrid
                      style="width: 100%; height: 100%"
                      class="ag-theme-alpine"
                      [columnDefs]="countyColumnDefs"
@@ -8,5 +8,6 @@
                      [rowSelection]="'multiple'"
                      [animateRows]="true"
                      (gridReady)="onCountyGridReady($event)"
+                   (cellClicked)="onCountyCellClicked($event)"
     ></ag-grid-angular>
 </div>

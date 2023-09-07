@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 import { CountyComponent } from '../geocache-county/app.component';
 
 @Component({
-  selector: 'regiongridcomponent',
+  selector: 'region',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -29,7 +29,9 @@ export class RegionComponent {
   // For accessing the Grid's API
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
 
-  constructor(private http: HttpClient, public countygridcomponent: CountyComponent) {}
+  @Output() messageToParent = new EventEmitter<string>();
+
+  constructor(private http: HttpClient) {}
 
   // Example load data from server
   onRegionGridReady(params: GridReadyEvent) {
@@ -40,7 +42,7 @@ export class RegionComponent {
   // Example of consuming Grid Event
   onRegionCellClicked( e: CellClickedEvent): void {
     console.log('cellClicked', e.data.region);
-    this.countygridcomponent.loadCounties(e);
+    this.messageToParent.emit(e.data.region);
   }
 
 
