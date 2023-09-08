@@ -18,18 +18,18 @@ sourceSets {
     }
 }
 
-jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes "Main-Class": "com.gg.core.config.AppStart"
-    }
-
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    } {
-        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-    }
-}
+//jar { //ForStandaloneSpark
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    manifest {
+//        attributes "Main-Class": "com.gg.core.config.AppStart"
+//    }
+//
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    } {
+//        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+//    }
+//}
 
 
 dependencies {
@@ -41,11 +41,11 @@ dependencies {
     implementation('org.apache.logging.log4j:log4j-api:2.19.0')
     implementation('org.apache.logging.log4j:log4j-core:2.19.0')
     implementation('org.slf4j:slf4j-log4j12:1.7.29')
-    implementation('jakarta.xml.bind:jakarta.xml.bind-api:2.3.2') //for spark executor ui
+    implementation('jakarta.xml.bind:jakarta.xml.bind-api:4.0.0') //for spark executor ui
     implementation('org.glassfish.jaxb:jaxb-runtime:2.3.2')// for spark executor ui
 }
 
-//dependenciesForStandaloneSpark {
+//dependencies {    //ForStandaloneSpark
 //    compileOnly 'org.apache.spark:spark-sql_2.13:3.3.2'
 //    compileOnly 'org.apache.spark:spark-core_2.13:3.3.2'
 //    compileOnly 'org.apache.spark:spark-streaming_2.13:3.3.2'
