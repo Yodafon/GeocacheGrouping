@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" modified="2023-09-11T16:32:03.321Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="L39ZMiyYsnLevqJEOQAk" version="21.7.4" type="github">
+  <diagram name="1 oldal" id="PECIXuEUNroKyanK3r6n">
+    <mxGraphModel dx="1562" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-8" value="Node container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="560" width="390" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-6" value="Pod Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-8">
+          <mxGeometry x="25" y="80" width="340" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-26" value="Docker&amp;nbsp;Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-6">
+          <mxGeometry x="35" y="40" width="270" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-7" value="GG Loader" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-26">
+          <mxGeometry x="10" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-9" value="GG Poller" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-26">
+          <mxGeometry x="140" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-14" value="Node container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="505" y="560" width="390" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-15" value="Pod Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-14">
+          <mxGeometry x="25" y="80" width="340" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-27" value="Docker&amp;nbsp;Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-15">
+          <mxGeometry x="31" y="37.5" width="260" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-16" value="GG UI Cache" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-27">
+          <mxGeometry y="65" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-17" value="GG UI" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-27">
+          <mxGeometry x="131" y="65" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-18" value="Node container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="560" width="390" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-28" value="Pod Container" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-18">
+          <mxGeometry x="37.5" y="60" width="315" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-19" value="Docker Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-28">
+          <mxGeometry x="55" y="80" width="225" height="162.5" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-20" value="GG Spark Master" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-19">
+          <mxGeometry x="42.5" y="72.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-22" value="Node container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="120" width="500" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-29" value="Pod Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-22">
+          <mxGeometry x="60" y="50" width="410" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-23" value="Docker Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-29">
+          <mxGeometry x="35" y="50" width="340" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-24" value="Spark Worker" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-23">
+          <mxGeometry x="95" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-30" value="Node container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="130" width="500" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-31" value="Pod Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-30">
+          <mxGeometry x="60" y="50" width="410" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-32" value="Docker Container" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-31">
+          <mxGeometry x="35" y="50" width="340" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="BNboJuSO8pRcp-xk_Tbs-33" value="Spark Worker" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="BNboJuSO8pRcp-xk_Tbs-32">
+          <mxGeometry x="110" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
