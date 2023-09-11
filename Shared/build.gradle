@@ -81,7 +81,7 @@ def addXjcTask(taskName, schema, pkg, dest) {
         mainClass = 'com.sun.tools.xjc.XJCFacade'
 
         // To explore available args, download the XJC JAR and run java -jar jaxb-xjc.jar --help
-        args schema, "-p", pkg, "-d", dest, "-no-header"
+        args schema, "-p", pkg, "-d", dest, "-no-header", "-extension"
     }
 }
 

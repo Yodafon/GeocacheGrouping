@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsd:schema
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
         xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
         jxb:extensionBindingPrefixes="xjc"
-        jxb:version="1.0"
+        jxb:version="3.0"
         targetNamespace="http://www.topografix.com/GPX/1/0"
         elementFormDefault="qualified">
-    <xsd:import namespace="http://www.groundspeak.com/cache/1/0" schemaLocation="geocache.xsd"/>
     <!-- Main GPX definition -->
     <xsd:annotation>
         <xsd:appinfo>

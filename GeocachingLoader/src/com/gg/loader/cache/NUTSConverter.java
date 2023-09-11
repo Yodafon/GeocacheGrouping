@@ -2,7 +2,7 @@ package com.gg.loader.cache;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
 import com.gg.generated.Nuts;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -22,7 +22,7 @@ public class NUTSConverter implements HttpMessageConverter<Nuts> {
     public MessageConverter createMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JaxbAnnotationModule());
+        objectMapper.registerModule(new JakartaXmlBindAnnotationModule());
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         converter.setObjectMapper(objectMapper);
