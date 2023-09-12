@@ -1,0 +1,5 @@
+#geocachedetailgridcomponent {
+  grid-area: geocachedetail;
+  width: 200%; height: 100%
+}
+

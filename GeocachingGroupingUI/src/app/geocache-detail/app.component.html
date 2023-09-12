@@ -1,0 +1,13 @@
+<!-- AG Grid Angular Component -->
+<div id="geocachedetailgridcomponent">
+  <ag-grid-angular #geocachedetailgrid
+                     style="width: 100%; height: 100%"
+                     class="ag-theme-alpine"
+                     [columnDefs]="geocachingDetailColumnDefs"
+                     [defaultColDef]="defaultColDef"
+                     [rowData]="rowData$ | async"
+                     [rowSelection]="'multiple'"
+                     [animateRows]="true"
+                     (gridReady)="onDetailGridReady($event)"
+    ></ag-grid-angular>
+</div>

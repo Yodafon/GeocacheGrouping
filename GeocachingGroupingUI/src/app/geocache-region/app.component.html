@@ -1,0 +1,13 @@
+<div id="regiongridcomponent">
+  <ag-grid-angular #regiongrid
+                     style="width: 100%; height: 100%"
+                     class="ag-theme-alpine"
+                     [columnDefs]="regionColumnDefs"
+                     [defaultColDef]="defaultColDef"
+                     [rowData]="rowData$ | async"
+                     [rowSelection]="'multiple'"
+                     [animateRows]="true"
+                     (gridReady)="onRegionGridReady($event)"
+                     (cellClicked)="onRegionCellClicked($event)"
+    ></ag-grid-angular>
+</div>
