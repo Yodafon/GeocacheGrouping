@@ -6,6 +6,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 @Component
@@ -21,7 +22,8 @@ public class GeocacheLoader {
     @Resource
     private RegionCache regionCache;
 
-    @Scheduled(cron = "5 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *") //daily midnight run
+    @PostConstruct
     public void run() {
         parser.parse()
                 .peek(wpt -> {

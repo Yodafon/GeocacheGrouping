@@ -2,8 +2,8 @@ package com.gg.core.driver
 
 import com.gg.generated.Gpx.Wpt
 import com.gg.generated.{GeocacheByCounty, GeocacheByRegion, GeocacheDetail}
-import org.apache.spark.streaming.StreamingContext
-import org.apache.spark.streaming.dstream.{DStream, ReceiverInputDStream}
+import org.apache.spark.streaming.dstream.DStream
+import org.apache.spark.streaming.{State, StateSpec, StreamingContext, Time}
 import org.springframework.jms.core.JmsTemplate
 import org.springframework.stereotype.Component
 
@@ -50,40 +50,72 @@ class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkRece
   }
 
 
-  val updateFunc =
-    (newData: Seq[Int], state: Option[Int]) => {
-      val currentCount = newData.sum
-      val previousCount = state.getOrElse(0)
-      Some(currentCount + previousCount)
-    }
+  val regionUpdateFunc =
+    StateSpec.function((batchTime: Time, key: String, value: Option[Int], state: State[Int]) => {
+      if (state.exists()) {
+        state.update(value.get + state.get())
+        Some((key, state.get()))
+      } else {
+        state.update(value.get)
+        Some((key, value.get))
+      }
+    })
 
-  val receivedCaches: ReceiverInputDStream[Wpt] = context.receiverStream(sparkReceiver)
-  val regionsDStream: DStream[String] = receivedCaches.map(_.getCache.getState)
-  val countiesDStream: DStream[(String, String)] = receivedCaches.map(item => (item.getCache.getCountry, item.getCache.getState))
+  val countyUpdateFunc =
+    StateSpec.function((batchTime: Time, key: (String, String), value: Option[Int], state: State[Int]) => {
+      if (state.exists()) {
+        state.update(value.get + state.get()) //increase same state with same key
+        Some((key, state.get())) //return back increased value
+      } else {
+        state.update(value.get) ///add new value to state with corresponding key
+        Some((key, value.get)) //return new value
+      }
+    })
 
-  val cachesByCounties: DStream[((String, String), Int)] = countiesDStream
+
+  val gpxUpdateFunc =
+    StateSpec.function((batchTime: Time, key: String, value: Option[Wpt], state: State[Wpt]) => {
+      if (state.exists()) { //if actual gpx exists, stop additional processing by returning None
+        None
+      } else {
+        state.update(value.get) //add new value to state with corresponding key
+        Some((key, value.get)) //return new value
+      }
+    })
+
+  val receivedCaches: DStream[(String, Wpt)] =
+    context.receiverStream(sparkReceiver)
+      .map(wpt => (wpt.getCache.getName, wpt))
+      .mapWithState(gpxUpdateFunc)
+  // TODO: (key: String, (GPX, doCalc:Boolean)) pair, if existing GPX was updated, shouldn't recalculate additional groupings
+  //  but GPX should be published onto MQ
+
+
+  val countiesDStream: DStream[((String, String), Int)] = receivedCaches
+    .map(item => (item._2.getCache.getCountry, item._2.getCache.getState))
+    // TODO: filter those elemenets out, which has doCalc=false to ignore from calculations
     .map(county => ((county._1, county._2), 1))
-    .reduceByKey((a, b) => a + b)
-    .updateStateByKey(updateFunc)
+    .mapWithState(countyUpdateFunc)
 
-
-  val cachesByRegion: DStream[(String, Int)] = regionsDStream.map(region => (region, 1))
-    .reduceByKey((a, b) => a + b)
-    .updateStateByKey(updateFunc)
-
-  cachesByCounties.foreachRDD(rdd => rdd.collect()
+  countiesDStream.foreachRDD(rdd => rdd.collect()
     .map(county => createGeocacheByCounty(county._1._1, county._1._2, county._2))
     .foreach(item => jmsTemplate.convertAndSend("DEV.APP.COUNTY", item))
   )
 
-  cachesByRegion.foreachRDD(rdd => rdd.collect()
+  val regionsDStream: DStream[(String, Int)] = {
+    countiesDStream.map(_._1._2)
+      .map(region => (region, 1))
+      .mapWithState(regionUpdateFunc)
+  }
+
+  regionsDStream.foreachRDD(rdd => rdd.collect()
     .map(region => createGeocacheByRegion(region._1, region._2))
     .foreach(item => jmsTemplate.convertAndSend("DEV.APP.REGION", item))
   )
 
   receivedCaches.foreachRDD(rdd =>
     rdd.collect()
-      .map(wpt => createGeocacheDetail(wpt))
+      .map(wpt => createGeocacheDetail(wpt._2))
       .foreach(item => jmsTemplate.convertAndSend("DEV.APP.GEOCACHEDETAILS", item))
   )
 
