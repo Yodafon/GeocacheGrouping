@@ -1,2 +1,1 @@
-Python.exe GeocachePoller.py
-exit 0
+Python.exe GeocachePoller.py GeocachePollerDEV.properties

@@ -6,7 +6,7 @@ import urllib.response
 from urllib.error import URLError
 
 
-# call usage: GeocachePoller.py <ENV>
+# call usage: GeocachePoller.py <CONFIG_FILE>
 
 def get_file():
     logger.info("Start downloading latest cache list...")
@@ -14,14 +14,18 @@ def get_file():
         response = (urllib.request.urlopen(
             config.get('GeocachePoller', 'geocache.download.url'))
                     .read())
-    except URLError:
-        logger.error("Error when downloading the file", )
+    except URLError as inst:
+        logger.error("Error when downloading the file")
+        logger.error(inst.args)
+        logger.error(inst)
         exit(1)
     logger.info("Download complete. File size: %d bytes", response.__sizeof__())
     try:
         f = open(config.get('GeocachePoller', 'geocache.file.path'), "wb")
-    except OSError:
+    except OSError as inst:
         logger.error("Error when creating file")
+        logger.error(inst.args)
+        logger.error(inst)
         exit(1)
     logger.info("File saving...")
     f.write(response)
@@ -29,7 +33,7 @@ def get_file():
 
 
 config = configparser.RawConfigParser()
-config.read('GeocachePoller' + sys.argv[1] + '.properties')
+config.read(sys.argv[1])
 
 logger = logging.getLogger("GeocachePoller")
 logging.basicConfig(filename=config.get('GeocachePoller', 'geocache.poller.log.location'),
