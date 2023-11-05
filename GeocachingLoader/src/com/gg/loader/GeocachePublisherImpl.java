@@ -27,4 +27,8 @@ public class GeocachePublisherImpl implements GeocachePublisher {
             LOGGER.error("Current object can't be published {}", geocache, e);
         }
     }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 }

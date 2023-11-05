@@ -40,7 +40,7 @@ class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkRece
     val detail = new GeocacheDetail
     detail.setCounty(wpt.getCache.getCountry)
     detail.setRegion(wpt.getCache.getState)
-    detail.setLong(wpt.getLon)
+    detail.setLon(wpt.getLon)
     detail.setLat(wpt.getLat)
     detail.setName(wpt.getCache.getName)
     detail.setType(wpt.getCache.getType)

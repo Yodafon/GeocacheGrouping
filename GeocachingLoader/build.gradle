@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.2'
+    id 'info.solidsoft.pitest' version '1.9.0'
 
 }
 apply plugin: 'io.spring.dependency-management'
@@ -19,6 +20,15 @@ sourceSets {
             srcDir 'src/resources'
         }
     }
+
+    test {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
 }
 
 dependencies {
@@ -29,8 +39,10 @@ dependencies {
     implementation('com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:+')
     implementation('com.hazelcast:hazelcast:+')
 }
-
-
-test {
-    useJUnitPlatform()
+pitest {
+    targetClasses = ['com.gg.*']  //by default "${project.group}.*"
+    pitestVersion = '1.9.0' //not needed when a default PIT version should be used
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
 }
