@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geocachinggroupingloader-deployment
+  labels:
+    app: GeocachingGroupingLoader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: GeocachingGroupingLoader
+  template:
+    metadata:
+      name: geocachinggroupingloader
+      labels:
+        app: GeocachingGroupingLoader
+    spec:
+      nodeSelector:
+        name: loader
+      containers:
+        - name: geocachingloader
+          image: 281741967817.dkr.ecr.eu-central-1.amazonaws.com/geocachinggroupingrepository:geocacheloader
+          ports:
+            - containerPort: 5701
+              name: hazelcast-port
+          volumeMounts:
+            - mountPath: /GeocacheGroupingApp/cache.xml
+              name: cache-volume
+      volumes:
+        - name: cache-volume
+          hostPath:
+            # directory location on host
+            path: /GeocacheGroupingApp/cache.xml
+            # this field is optional
+            type: File
+      imagePullSecrets:
+        - name: aws-ecr-cred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loader-hazelcast-discovery-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: geocachinggroupingloader
+  ports:
+    - name: hazelcast
+      port: 5701
+
