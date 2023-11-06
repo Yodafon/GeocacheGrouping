@@ -1,0 +1,1 @@
+minikube start --cni=calico --alsologtostderr --v=10 --memory 6000 --cpus 4 --mount-string="/c/GeocacheGroupingApp:/GeocacheGroupingApp" --mount

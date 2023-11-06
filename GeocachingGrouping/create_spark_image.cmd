@@ -1,0 +1,1 @@
+docker build -f %SPARK_HOME%\kubernetes\dockerfiles\spark\Dockerfile -t spark %SPARK_HOME%
