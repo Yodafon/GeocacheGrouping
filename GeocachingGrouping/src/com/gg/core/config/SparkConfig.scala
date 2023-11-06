@@ -25,13 +25,7 @@ class SparkConfig {
     propertiesFactoryBean
   }
 
-  @Bean
-  def propertySourcesPlaceholderConfigurer(propertiesFactoryBean: PropertiesFactoryBean): PropertySourcesPlaceholderConfigurer = {
-    val pspc = new PropertySourcesPlaceholderConfigurer
-    pspc setProperties propertiesFactoryBean.getObject
-    pspc setIgnoreUnresolvablePlaceholders true
-    pspc
-  }
+
 
 
   def sparkConfFactoryBean: SparkConf = {
@@ -56,4 +50,14 @@ class SparkConfig {
   }
 
 
+}
+
+object SparkConfig {
+  @Bean
+  def propertySourcesPlaceholderConfigurer(propertiesFactoryBean: PropertiesFactoryBean): PropertySourcesPlaceholderConfigurer = {
+    val pspc = new PropertySourcesPlaceholderConfigurer
+    pspc setProperties propertiesFactoryBean.getObject
+    pspc setIgnoreUnresolvablePlaceholders true
+    pspc
+  }
 }

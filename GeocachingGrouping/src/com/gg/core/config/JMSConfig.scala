@@ -1,9 +1,12 @@
 package com.gg.core.config
 
 import com.ibm.mq.jakarta.jms.MQQueueConnectionFactory
+import com.ibm.msg.client.jakarta.wmq.common.CommonConstants
 import com.ibm.msg.client.jakarta.wmq.compat.base.internal.MQC
+import jakarta.jms.ConnectionFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.{Bean, Configuration}
+import org.springframework.jms.core.JmsTemplate
 import org.springframework.jms.support.converter.{MappingJackson2MessageConverter, MessageConverter, MessageType}
 
 @Configuration
@@ -32,7 +35,7 @@ class JMSConfig {
 
 
   @Bean
-  def connectionFactory: MQQueueConnectionFactory = {
+  def connectionFactory: ConnectionFactory = {
     val connectionFactory = new MQQueueConnectionFactory()
     connectionFactory.setHostName(host)
     connectionFactory.setPort(port)
@@ -40,8 +43,15 @@ class JMSConfig {
     connectionFactory.setStringProperty(MQC.PASSWORD_PROPERTY, password);
     connectionFactory.setChannel(channel)
     connectionFactory.setQueueManager(queueManager)
+    connectionFactory.setIntProperty(CommonConstants.WMQ_CONNECTION_MODE, CommonConstants.WMQ_CM_CLIENT)
     connectionFactory
   }
 
+  @Bean
+  def jmsTemplate(messageConverter: MessageConverter): JmsTemplate = {
+    val template = new JmsTemplate(connectionFactory)
+    template.setMessageConverter(messageConverter)
+    template
+  }
 
 }
