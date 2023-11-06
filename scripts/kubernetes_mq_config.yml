@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmmq-deployment
+  labels:
+    app: IBMMQ
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: IBMMQ
+  template:
+    metadata:
+      name: ibmmq
+      labels:
+        app: IBMMQ
+    spec:
+      nodeSelector:
+        name: mq
+      containers:
+        - name: ibmmq
+          image: seanmortonafs/ibmmq:9.3.3.1-amd64
+          command: [ "/bin/sh", "-c" ]
+          args: [ "runmqdevserver & sleep 20; echo -e \"define qlocal (DEV.APP.COUNTY)\ndefine qlocal (DEV.APP.REGION)\ndefine qlocal (DEV.APP.GEOCACHEDETAILS)\ndefine qlocal (DEV.APP.LOADER)\" | runmqsc QM1; setmqaut -m QM1 -t qmgr -p app +all; tail -f /mnt/mqm/data/web/installations/Installation1/servers/mqweb/logs/console.log" ]
+          env:
+            - name: LICENSE
+              value: "accept"
+            - name: MQ_QMGR_NAME
+              value: "QM1"
+          ports:
+            - containerPort: 1414
+              name: mq-port
+            - containerPort: 9443
+              name: mq-admin-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibm-mq-admin-page
+spec:
+  selector:
+    app: IBMMQ
+  ports:
+    - name: mq-admin-port
+      port: 9443
+      appProtocol: https
+      targetPort: 9443
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibm-mq-endpoint-service
+spec:
+  selector:
+    app: IBMMQ
+  ports:
+    - name: mq-port
+      port: 1414
+      appProtocol: https
+      protocol: TCP
+      targetPort: 1414
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" #allowing https passthroughs
+  name: mq-admin-page-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/ibmmq/console"
+            pathType: Prefix
+            backend:
+              service:
+                name: ibm-mq-admin-page
+                port:
+                  number: 9443
