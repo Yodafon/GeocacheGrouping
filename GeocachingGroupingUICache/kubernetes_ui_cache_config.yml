@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geocachinggroupinguicache-deployment
+  labels:
+    app: GeocachingGroupingUICache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: GeocachingGroupingUICache
+  template:
+    metadata:
+      name: geocachinggroupinguicache
+      labels:
+        app: GeocachingGroupingUICache
+    spec:
+      nodeSelector:
+        name: ui
+      containers:
+        - name: geocacheuicache
+          image: 281741967817.dkr.ecr.eu-central-1.amazonaws.com/geocachinggroupingrepository:geocacheuicache
+          ports:
+            - containerPort: 8081
+              name: rest-port
+            - containerPort: 5701
+              name: hazelcast-port
+      imagePullSecrets:
+        - name: aws-ecr-cred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: geocache-ui-cache-service
+spec:
+  selector:
+    app: GeocachingGroupingUICache
+  ports:
+    - name: rest-port
+      port: 8081
+      targetPort: 8081
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uicache-hazelcast-discovery-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: geocachinggroupinguicache
+  ports:
+    - name: hazelcast
+      port: 5701
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: geocache-ui-cache-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/uicache"
+            pathType: Prefix
+            backend:
+              service:
+                name: geocache-ui-cache-service
+                port:
+                  number: 8081
