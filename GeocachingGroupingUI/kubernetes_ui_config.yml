@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geocachinggroupingui-deployment
+  labels:
+    app: GeocachingGroupingUI
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: GeocachingGroupingUI
+  template:
+    metadata:
+      name: geocachinggroupingui
+      labels:
+        app: GeocachingGroupingUI
+    spec:
+      nodeSelector:
+        name: ui
+      containers:
+        - name: geocachinggroupingui
+          image: 281741967817.dkr.ecr.eu-central-1.amazonaws.com/geocachinggroupingrepository:geocachingui
+          env:
+            - name: HOST_URL
+              value: a6d40dc0fecea43ed9e1b92c4d183279-9bf15283fec9b57c.elb.eu-central-1.amazonaws.com
+      imagePullSecrets:
+        - name: aws-ecr-cred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: geocache-ui-service
+spec:
+  selector:
+    app: GeocachingGroupingUI
+  ports:
+    # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: geocache-ui-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: geocache-ui-service
+                port:
+                  number: 80
+
