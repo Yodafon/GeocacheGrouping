@@ -1,0 +1,1 @@
+Python.exe src\GeocachePoller.py resource\GeocachePollerDEV.properties

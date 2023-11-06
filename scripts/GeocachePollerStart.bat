@@ -1,1 +1,0 @@
-Python.exe GeocachePoller.py GeocachePollerDEV.properties
