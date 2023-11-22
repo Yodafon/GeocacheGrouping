@@ -5,7 +5,7 @@ plugins {
 }
 apply plugin: 'io.spring.dependency-management'
 
-group 'com.gg'
+group 'com.gg.uicache'
 
 repositories {
     mavenCentral()
@@ -14,7 +14,15 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDir 'src/main'
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src'
         }
         resources {
             srcDir 'src/resources'
@@ -25,6 +33,14 @@ sourceSets {
 dependencies {
     implementation(project(':Shared'))
     implementation('com.hazelcast:hazelcast:+')
-    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0')
+    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
     implementation('com.fasterxml.jackson.module:jackson-module-jaxb-annotations:+')
+}
+
+
+test {
+    useJUnitPlatform()
 }

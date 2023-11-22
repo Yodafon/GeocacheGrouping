@@ -123,6 +123,20 @@ resource "aws_s3_bucket" "geocaching-s3-bucket" {
 
 }
 
+resource "aws_s3_bucket_ownership_controls" "example" {
+  bucket = aws_s3_bucket.geocaching-s3-bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "geocaching-s3-bucket-acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.example]
+
+  bucket = aws_s3_bucket.geocaching-s3-bucket.id
+  acl    = "private"
+}
+
 resource "aws_ecr_repository" "geocachinggroupingrepository" {
   name         = "geocachinggroupingrepository"
   force_delete = true

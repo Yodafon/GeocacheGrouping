@@ -6,6 +6,8 @@ import com.gg.generated.GeocacheDetail;
 import com.gg.uicache.config.HazelcastConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,8 @@ import javax.annotation.Resource;
 
 @Component
 public class JMSMessageListener {
+
+    Logger LOGGER = LoggerFactory.getLogger(JMSMessageListener.class);
 
     @Resource
     private HazelcastInstance hazelcastInstance;
@@ -22,6 +26,7 @@ public class JMSMessageListener {
         if (message.getCounty() != null) {
             IMap<String, GeocacheByCounty> map = getHazelcastInstanceMap(HazelcastConfig.COUNTY_CACHE);
             map.put(message.getCounty(), message);
+            LOGGER.info("{} has been added to county cache", message.getCounty());
         }
     }
 
@@ -30,6 +35,7 @@ public class JMSMessageListener {
         if (message.getRegion() != null) {
             IMap<String, GeocacheByRegion> map = getHazelcastInstanceMap(HazelcastConfig.REGION_CACHE);
             map.put(message.getRegion(), message);
+            LOGGER.info("{} has been added to region cache", message.getRegion());
         }
     }
 
@@ -39,6 +45,7 @@ public class JMSMessageListener {
         if (message.getId() != null) {
             IMap<String, GeocacheDetail> map = getHazelcastInstanceMap(HazelcastConfig.GEOCACHE_DETAILS_CACHE);
             map.put(message.getId(), message);
+            LOGGER.info("{} has been added to geocache detail cache", message.getId());
         }
     }
 

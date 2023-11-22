@@ -3,25 +3,20 @@ package com.gg.loader.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 @Configuration
-@EnableScheduling
-@ComponentScan("com.gg.loader")
-@SpringBootApplication
 public class GeocacheLoaderConfig {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GeocacheLoaderConfig.class, args);
-    }
 
     @Bean
     public XmlMapper xmlMapper() {
@@ -41,6 +36,11 @@ public class GeocacheLoaderConfig {
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
         return pspc;
+    }
+
+    @Bean
+    public InputStream gpxInputStream(@Value("${cache.file.location}") String path) throws FileNotFoundException {
+        return new FileInputStream(path);
     }
 
 

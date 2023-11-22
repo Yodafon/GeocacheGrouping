@@ -83,13 +83,21 @@ class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkRece
       }
     })
 
-  val receivedCaches: DStream[(String, Wpt)] =
+  val receivedCaches1: DStream[(String, Wpt)] =
+    context.receiverStream(sparkReceiver)
+      .map(wpt => (wpt.getCache.getName, wpt))
+      .mapWithState(gpxUpdateFunc)
+
+
+  val receivedCaches2: DStream[(String, Wpt)] =
     context.receiverStream(sparkReceiver)
       .map(wpt => (wpt.getCache.getName, wpt))
       .mapWithState(gpxUpdateFunc)
   // TODO: (key: String, (GPX, doCalc:Boolean)) pair, if existing GPX was updated, shouldn't recalculate additional groupings
   //  but GPX should be published onto MQ
 
+
+  val receivedCaches = receivedCaches1 union receivedCaches2
 
   val countiesDStream: DStream[((String, String), Int)] = receivedCaches
     .map(item => (item._2.getCache.getCountry, item._2.getCache.getState))

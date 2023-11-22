@@ -37,6 +37,7 @@ class SparkReceiver extends Receiver[Wpt](StorageLevel.MEMORY_ONLY) with Seriali
         var obj: Wpt = jmsTemplate.receiveAndConvert("DEV.APP.LOADER").asInstanceOf[Wpt];
         if (obj != null) {
           store(obj)
+          LOGGER.info("{} has been received and stored", obj)
         }
       }
     }

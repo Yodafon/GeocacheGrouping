@@ -23,6 +23,7 @@ public class GeocachePublisherImpl implements GeocachePublisher {
     public void publish(Gpx.Wpt geocache) {
         try {
             jmsTemplate.convertAndSend(destination, geocache);
+            LOGGER.info("Geocache was sent: {}", geocache);
         } catch (Exception e) {
             LOGGER.error("Current object can't be published {}", geocache, e);
         }
