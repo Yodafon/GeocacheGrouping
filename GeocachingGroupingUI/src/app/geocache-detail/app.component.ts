@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, Input, Output, EventEmitter  } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Component, Input, ViewChild} from '@angular/core';
+import {AgGridAngular} from 'ag-grid-angular';
+import {ColDef, GridReadyEvent} from 'ag-grid-community';
+import {Observable} from 'rxjs';
+import {APP_CONFIG} from "../app-config";
 
 @Component({
   selector: 'geocachedetail',
@@ -11,8 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class GeocacheDetailComponent {
 
-      public geocachingDetailColumnDefs: ColDef[] = [
-        { headerName: 'Id', field: 'id'},
+  public geocachingDetailColumnDefs: ColDef[] = [
+    {headerName: 'Id', field: 'id'},
         { headerName: 'Name', field: 'name'},
         { headerName: 'County', field: 'county'},
         { headerName: 'Region', field: 'region'},
@@ -37,26 +38,16 @@ export class GeocacheDetailComponent {
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
 
   @Input() set messageToGeocacheDetail(value: string) {
-         this.http
-                   .get<any[]>('http://localhost:8081/uicache/geocachedetails/'+value).subscribe((data)=>{
-                    this.agGrid.api.setRowData(data);
-                   });
+    this.http
+      .get<any[]>('http://' + APP_CONFIG.host_url + '/uicache/geocachedetails/' + value).subscribe((data) => {
+      this.agGrid.api.setRowData(data);
+    });
 
-    }
+  }
   constructor(private http: HttpClient) {}
 
   // Example load data from server
   onDetailGridReady(params: GridReadyEvent) {
 
-  }
-
-  // Example of consuming Grid Event
-  onDetailCellClicked( e: CellClickedEvent): void {
-    console.log('cellClicked', e);
-  }
-
-  // Example using Grid's API
-  clearSelection(): void {
-    this.agGrid.api.deselectAll();
   }
 }

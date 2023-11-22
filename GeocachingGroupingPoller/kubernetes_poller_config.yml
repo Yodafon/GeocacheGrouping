@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geocachinggroupingpoller-deployment
+  labels:
+    app: GeocachingGroupingPoller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: GeocachingGroupingPoller
+  template:
+    metadata:
+      name: geocachinggroupingpoller
+      labels:
+        app: GeocachingGroupingPoller
+    spec:
+      nodeSelector:
+        name: loader
+      containers:
+        - name: geocachingpoller
+          image: 281741967817.dkr.ecr.eu-central-1.amazonaws.com/geocachinggroupingrepository:geocachepoller
+          volumeMounts:
+            - mountPath: /GeocacheGroupingApp
+              name: cache-volume
+      volumes:
+        - name: cache-volume
+          hostPath:
+            # directory location on host
+            path: /GeocacheGroupingApp
+            # this field is optional
+            type: Directory
+      imagePullSecrets:
+        - name: aws-ecr-cred

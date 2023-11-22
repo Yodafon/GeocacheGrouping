@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
-import { Observable } from 'rxjs';
-import { CountyComponent } from '../geocache-county/app.component';
+import {HttpClient} from '@angular/common/http';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AgGridAngular} from 'ag-grid-angular';
+import {CellClickedEvent, ColDef, GridReadyEvent} from 'ag-grid-community';
+import {Observable} from 'rxjs';
+import {APP_CONFIG} from "../app-config";
 
 @Component({
   selector: 'region',
@@ -13,7 +13,7 @@ import { CountyComponent } from '../geocache-county/app.component';
 export class RegionComponent {
 
   public regionColumnDefs: ColDef[] = [
-    { headerName: 'Region', field: 'region'},
+    {headerName: 'Region', field: 'region'},
     { headerName: 'Count', field: 'count'}
   ];
 
@@ -35,8 +35,8 @@ export class RegionComponent {
 
   // Example load data from server
   onRegionGridReady(params: GridReadyEvent) {
-     this.rowData$ = this.http
-       .get<any[]>('http://localhost:8081/uicache/regions');
+    this.rowData$ = this.http
+      .get<any[]>('http://' + APP_CONFIG.host_url + '/uicache/regions');
   }
 
   // Example of consuming Grid Event

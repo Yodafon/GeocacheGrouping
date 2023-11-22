@@ -13,8 +13,12 @@ public class HazelcastConfig {
 
   @Bean
   public HazelcastInstance hazelcastInstance() {
-    Config hazel1 = new Config("hazel1");
-    HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(hazel1);
+    Config config = Config.load();
+    config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+    config.getNetworkConfig().getJoin().getKubernetesConfig().setEnabled(true)
+            .setProperty("namespace", "default")
+            .setProperty("service-name", "loader-hazelcast-discovery-service");
+    HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
     return hazelcastInstance;
   }
 

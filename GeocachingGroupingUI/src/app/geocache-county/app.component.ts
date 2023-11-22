@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {AgGridAngular} from 'ag-grid-angular';
+import {CellClickedEvent, ColDef, GridReadyEvent} from 'ag-grid-community';
+import {Observable} from 'rxjs';
+import {APP_CONFIG} from "../app-config";
 
 @Component({
   selector: 'county',
@@ -11,17 +12,16 @@ import { Observable } from 'rxjs';
 })
 export class CountyComponent {
 
-//   @Input() messageToChild2!: string;
   @Output() messageToParent = new EventEmitter<string>();
 
 
  @Input() set messageToCounty(value: string) {
-         this.http
-                   .get<any[]>('http://localhost:8081/uicache/counties/'+value).subscribe((data)=>{
-                    this.countygrid.api.setRowData(data);
-                   });
+   this.http
+     .get<any[]>('http://' + APP_CONFIG.host_url + '/uicache/counties/' + value).subscribe((data) => {
+     this.countygrid.api.setRowData(data);
+   });
 
-    }
+ }
 
     // Each Column Definition results in one Column.
    public countyColumnDefs: ColDef[] =  [
@@ -52,13 +52,6 @@ export class CountyComponent {
 
 
   onCountyCellClicked( e: CellClickedEvent): void {
-    console.log('cellClicked', e.data.region);
     this.messageToParent.emit(e.data.county);
-  }
-
-
-  // Example using Grid's API
-  clearSelection(): void {
-    this.countygrid.api.deselectAll();
   }
 }

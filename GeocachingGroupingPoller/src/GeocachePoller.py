@@ -40,5 +40,6 @@ logging.basicConfig(filename=config.get('GeocachePoller', 'geocache.poller.log.l
                     format='%(asctime)s %(message)s',
                     filemode='a+')
 logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 get_file()

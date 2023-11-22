@@ -1,5 +1,6 @@
 package com.gg.uicache.config;
 
+import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +19,13 @@ public class HazelcastConfig {
 
     @Bean
     public HazelcastInstance createHazelcastInstance() {
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
-        hazelcastInstance.getConfig().getMapConfigs().values().forEach(item -> item.setTimeToLiveSeconds(timeToLiveSeconds));
+        Config config = Config.load();
+        config.getMapConfigs().values().forEach(item -> item.setTimeToLiveSeconds(timeToLiveSeconds));
+        config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+        config.getNetworkConfig().getJoin().getKubernetesConfig().setEnabled(true)
+                .setProperty("namespace", "default")
+                .setProperty("service-name", "uicache-hazelcast-discovery-service");
+        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
         return hazelcastInstance;
     }
 

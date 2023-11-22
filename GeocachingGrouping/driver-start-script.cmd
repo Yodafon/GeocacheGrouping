@@ -1,0 +1,1 @@
+%SPARK_HOME%\bin\spark-submit --name "GeocachingGrouping" --class com.gg.core.AppStart --master spark://192.168.0.143:7077 --conf spark.eventLog.enabled=true --conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps" build\libs\GeocachingGrouping.jar
