@@ -6,6 +6,7 @@ import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class HazelcastConfig {
@@ -18,15 +19,21 @@ public class HazelcastConfig {
     private int timeToLiveSeconds;
 
     @Bean
-    public HazelcastInstance createHazelcastInstance() {
+    @Profile(value = "prod")
+    public HazelcastInstance createProdHazelcastInstance() {
         Config config = Config.load();
         config.getMapConfigs().values().forEach(item -> item.setTimeToLiveSeconds(timeToLiveSeconds));
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         config.getNetworkConfig().getJoin().getKubernetesConfig().setEnabled(true)
                 .setProperty("namespace", "default")
                 .setProperty("service-name", "uicache-hazelcast-discovery-service");
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
-        return hazelcastInstance;
+        return Hazelcast.newHazelcastInstance(config);
+    }
+
+    @Bean
+    @Profile(value = "dev")
+    public HazelcastInstance createDevHazelcastInstance() {
+        return Hazelcast.newHazelcastInstance();
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @Component
 public class GeocacheXmlParserImpl implements GeocacheXmlParser {
 
-    Logger LOGGER = LoggerFactory.getLogger(GeocacheXmlParser.class);
+    Logger LOGGER = LoggerFactory.getLogger(GeocacheXmlParserImpl.class);
 
     @Inject
     private XmlMapper xmlMapper;

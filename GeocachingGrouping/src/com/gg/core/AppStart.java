@@ -12,7 +12,7 @@ public class AppStart {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppStart.class);
 
     public static void main(String[] args) {
-        System.out.println("Starting Grouping application");
+        LOGGER.info("Starting Grouping application");
         SpringApplication.run(AppStart.class, args);
     }
 

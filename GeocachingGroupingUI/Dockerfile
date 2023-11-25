@@ -1,4 +1,4 @@
-FROM nginx as runtime
+FROM nginx:latest AS runtime
 LABEL authors="Laci"
 WORKDIR /app
 COPY dist/geocaching-grouping-ui /usr/share/nginx/html

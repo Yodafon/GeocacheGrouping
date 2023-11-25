@@ -22,61 +22,56 @@ sourceSets {
 }
 
 // set to false, else it will be packaged twice, one for the shaded jar, one with the normal jar
-jar {
-    enabled = false
-}
+//jar {
+//    enabled = false
+//}
 // creates the spring boot shaded jar
 
-import com.github.jengelman.gradle.plugins.shadow.transformers.PropertiesFileTransformer
+//import com.github.jengelman.gradle.plugins.shadow.transformers.PropertiesFileTransformer
+//shadowJar {
+//    zip64 true
+//    mergeServiceFiles()
+//    append 'META-INF/spring.handlers'
+//    append 'META-INF/spring.schemas'
+//    append 'META-INF/spring.tooling'
+//
+//    exclude 'META-INF/*.SF'
+//    exclude 'META-INF/*.DSA'
+//    exclude 'META-INF/*.RSA'
+//
+//    transform(PropertiesFileTransformer) {
+//        paths = ['META-INF/spring.factories']
+//        mergeStrategy = "append"
+//    }
+//    archiveFileName = "GeocachingGrouping.jar"
+//}
+//jar.dependsOn(shadowJar)
 
-shadowJar {
-    zip64 true
-    mergeServiceFiles()
-    append 'META-INF/spring.handlers'
-    append 'META-INF/spring.schemas'
-    append 'META-INF/spring.tooling'
 
-    exclude 'META-INF/*.SF'
-    exclude 'META-INF/*.DSA'
-    exclude 'META-INF/*.RSA'
-
-    transform(PropertiesFileTransformer) {
-        paths = ['META-INF/spring.factories']
-        mergeStrategy = "append"
-    }
-    archiveFileName = "GeocachingGrouping.jar"
+dependencies {
+    implementation 'org.apache.spark:spark-sql_2.13:3.5.0'
+    implementation 'org.apache.spark:spark-core_2.13:3.5.0'
+    implementation 'org.apache.spark:spark-streaming_2.13:3.5.0'
+    implementation project(':Shared')
+    implementation 'org.scala-lang:scala-library:2.13.10'
+    implementation('jakarta.xml.bind:jakarta.xml.bind-api:4.0.0') //for spark executor ui
+    implementation('org.glassfish.jaxb:jaxb-runtime:2.3.2')// for spark executor ui
 }
-jar.dependsOn(shadowJar)
 
-//
-//
-//dependencies {
-//    implementation 'org.apache.spark:spark-sql_2.13:3.5.0'
-//    implementation 'org.apache.spark:spark-core_2.13:3.5.0'
-//    implementation 'org.apache.spark:spark-streaming_2.13:3.5.0'
+//dependencies {    //ForStandaloneSpark
+//    compileOnly 'org.apache.spark:spark-sql_2.13:3.5.0'
+//    compileOnly 'org.apache.spark:spark-core_2.13:3.5.0'
+//    compileOnly 'org.apache.spark:spark-streaming_2.13:3.5.0'
 //    implementation project(':Shared')
-//    implementation 'org.scala-lang:scala-library:2.13.10'
-//    implementation('org.apache.logging.log4j:log4j-api:2.20.0')
-//    implementation('org.apache.logging.log4j:log4j-core:2.20.0')
-//    implementation('org.slf4j:slf4j-log4j12:1.7.29')
-//    implementation('jakarta.xml.bind:jakarta.xml.bind-api:4.0.0') //for spark executor ui
-//    implementation('org.glassfish.jaxb:jaxb-runtime:2.3.2')// for spark executor ui
+//    compileOnly 'org.scala-lang:scala-library:2.13.10'
+//    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0') {
+//        exclude module: "spring-boot-starter-logging"
+//        exclude module: "logback-classic"
+//    }
+//    implementation('jakarta.xml.bind:jakarta.xml.bind-api:2.3.2')
+//    implementation('org.glassfish.jaxb:jaxb-runtime:2.3.2')
 //}
 //
-dependencies {    //ForStandaloneSpark
-    compileOnly 'org.apache.spark:spark-sql_2.13:3.5.0'
-    compileOnly 'org.apache.spark:spark-core_2.13:3.5.0'
-    compileOnly 'org.apache.spark:spark-streaming_2.13:3.5.0'
-    implementation project(':Shared')
-    compileOnly 'org.scala-lang:scala-library:2.13.10'
-    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0') {
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
-    implementation('jakarta.xml.bind:jakarta.xml.bind-api:2.3.2')
-    implementation('org.glassfish.jaxb:jaxb-runtime:2.3.2')
-}
-
 test {
     useJUnitPlatform()
 }

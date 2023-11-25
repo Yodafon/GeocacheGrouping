@@ -1,7 +1,7 @@
 FROM python:latest
 LABEL authors="Laci"
 WORKDIR /app
-RUN apt-get update && apt-get -y install cron
+RUN apt-get update && apt-get -y install cron && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 COPY src/GeocachePoller.py ./
 COPY resource/GeocachePollerPROD.properties ./
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.gg.loader.cache.HazelcastConfig.REGION_CACHE_MAP;
+import static com.gg.loader.cache.HazelcastDevConfig.REGION_CACHE_MAP;
 
 @Component
 @DependsOn("hazelcastInstance")

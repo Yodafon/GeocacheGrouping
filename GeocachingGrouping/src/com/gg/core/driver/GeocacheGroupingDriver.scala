@@ -12,7 +12,7 @@ import javax.xml.datatype.DatatypeFactory
 
 
 @Component
-class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkReceiver,
+class GeocacheGroupingDriver(context: StreamingContext, sparkReceiverFactory: SparkReceiverFactory,
                              @transient jmsTemplate: JmsTemplate
                             ) extends Serializable {
   @transient val instance = DatatypeFactory.newInstance
@@ -84,24 +84,20 @@ class GeocacheGroupingDriver(context: StreamingContext, sparkReceiver: SparkRece
     })
 
   val receivedCaches1: DStream[(String, Wpt)] =
-    context.receiverStream(sparkReceiver)
+    context.receiverStream(sparkReceiverFactory.getSparReceiver)
       .map(wpt => (wpt.getCache.getName, wpt))
       .mapWithState(gpxUpdateFunc)
 
 
   val receivedCaches2: DStream[(String, Wpt)] =
-    context.receiverStream(sparkReceiver)
+    context.receiverStream(sparkReceiverFactory.getSparReceiver)
       .map(wpt => (wpt.getCache.getName, wpt))
       .mapWithState(gpxUpdateFunc)
-  // TODO: (key: String, (GPX, doCalc:Boolean)) pair, if existing GPX was updated, shouldn't recalculate additional groupings
-  //  but GPX should be published onto MQ
-
 
   val receivedCaches = receivedCaches1 union receivedCaches2
 
   val countiesDStream: DStream[((String, String), Int)] = receivedCaches
     .map(item => (item._2.getCache.getCountry, item._2.getCache.getState))
-    // TODO: filter those elemenets out, which has doCalc=false to ignore from calculations
     .map(county => ((county._1, county._2), 1))
     .mapWithState(countyUpdateFunc)
 

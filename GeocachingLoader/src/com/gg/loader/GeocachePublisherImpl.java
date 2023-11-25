@@ -17,7 +17,7 @@ public class GeocachePublisherImpl implements GeocachePublisher {
     @Value("${ibm.mq.destination}")
     private String destination;
 
-    Logger LOGGER = LoggerFactory.getLogger(GeocachePublisher.class);
+    private Logger LOGGER = LoggerFactory.getLogger(GeocachePublisherImpl.class);
 
     @Override
     public void publish(Gpx.Wpt geocache) {

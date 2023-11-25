@@ -51,6 +51,6 @@ public class NUTSConverter implements HttpMessageConverter<Nuts> {
 
     @Override
     public void write(Nuts nuts, MediaType contentType, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-
+        throw new UnsupportedOperationException();
     }
 }

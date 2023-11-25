@@ -1,9 +1,5 @@
-package com.gg.loader.config;
+package com.gg.uicache.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,22 +7,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 @Configuration
-public class GeocacheLoaderConfig {
+public class UICacheConfig {
 
-
-    @Bean
-    public XmlMapper xmlMapper() {
-        JacksonXmlModule module = new JacksonXmlModule();
-        module.setDefaultUseWrapper(false);
-        XmlMapper xmlMapper = new XmlMapper(module);
-        xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        return xmlMapper;
-    }
 
     @Bean
     @Profile(value = "dev")
@@ -34,7 +17,7 @@ public class GeocacheLoaderConfig {
         PropertySourcesPlaceholderConfigurer pspc
                 = new PropertySourcesPlaceholderConfigurer();
         Resource[] resources = new ClassPathResource[]
-                {new ClassPathResource("/config/geocacheloader-dev.properties")};
+                {new ClassPathResource("/config/uicache-dev.properties")};
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
         return pspc;
@@ -46,15 +29,10 @@ public class GeocacheLoaderConfig {
         PropertySourcesPlaceholderConfigurer pspc
                 = new PropertySourcesPlaceholderConfigurer();
         Resource[] resources = new ClassPathResource[]
-                {new ClassPathResource("/config/geocacheloader-prod.properties")};
+                {new ClassPathResource("/config/uicache-prod.properties")};
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
         return pspc;
-    }
-
-    @Bean
-    public InputStream gpxInputStream(@Value("${cache.file.location}") String path) throws FileNotFoundException {
-        return new FileInputStream(path);
     }
 
 

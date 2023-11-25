@@ -5,10 +5,12 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 
 @Configuration
-public class HazelcastConfig {
+@Profile(value = "prod")
+public class HazelcastProdConfig {
 
 
   @Bean
@@ -18,8 +20,7 @@ public class HazelcastConfig {
     config.getNetworkConfig().getJoin().getKubernetesConfig().setEnabled(true)
             .setProperty("namespace", "default")
             .setProperty("service-name", "loader-hazelcast-discovery-service");
-    HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
-    return hazelcastInstance;
+    return Hazelcast.newHazelcastInstance(config);
   }
 
   public static final String REGION_CACHE_MAP = "regionCacheMap";
