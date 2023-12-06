@@ -31,8 +31,6 @@
             <AppenderRef ref="FILE_GEOCACHEUICACHE"/>
         </Logger>
 
-        <Logger name="org.apache.catalina" level="error"/>
-
         <Logger name="org.hibernate" level="debug"/>
 
         <Logger name="org.hibernate.SQL" level="TRACE"/>
